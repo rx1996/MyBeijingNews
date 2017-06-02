@@ -1,14 +1,22 @@
 package com.atguigu.mybeijingnews.activity;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.fragment.ContentFragment;
+import com.atguigu.mybeijingnews.fragment.LeftMenuFragment;
 import com.atguigu.mybeijingnews.utils.DensityUtil;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class MainActivity extends SlidingFragmentActivity {
+
+
+    public static final String LEFT_TAG = "LEFT_TAG";
+    public static final String MAIN_TAG = "MAIN_TAG";
 
     //设置主页面
     @Override
@@ -27,5 +35,19 @@ public class MainActivity extends SlidingFragmentActivity {
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         //设置主页面占的宽度
         slidingMenu.setBehindOffset(DensityUtil.dip2px(MainActivity.this,200));
+
+        initFragment();
+    }
+
+    private void initFragment() {
+        //得到FragmentManger
+        FragmentManager fm = getSupportFragmentManager();
+        //开启事务
+        FragmentTransaction ft = fm.beginTransaction();
+        //替换两个Fragment
+        ft.replace(R.id.fl_left,new LeftMenuFragment(), LEFT_TAG);
+        ft.replace(R.id.fl_main,new ContentFragment(), MAIN_TAG);
+        //提交事物
+        ft.commit();
     }
 }
