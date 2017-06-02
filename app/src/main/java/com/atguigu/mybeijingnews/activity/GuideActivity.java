@@ -70,7 +70,7 @@ public class GuideActivity extends AppCompatActivity {
     class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         /**
-         * 当滑到的时候回调
+         * 当滑动的时候回调
          *
          * @param position             当前滑动的页面的下标位置
          * @param positionOffset       百分比

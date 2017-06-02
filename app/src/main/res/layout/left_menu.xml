@@ -4,11 +4,12 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#44000000"
     tools:context="com.atguigu.mybeijingnews.activity.MainActivity">
 
     <TextView
         android:layout_centerInParent="true"
-        android:text="主页面"
+        android:text="左侧菜单"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </FrameLayout>
