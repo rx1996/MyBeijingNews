@@ -1,5 +1,6 @@
 package com.atguigu.mybeijingnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.utils.CacheUtils;
+import com.atguigu.mybeijingnews.utils.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -170,10 +173,10 @@ public class GuideActivity extends AppCompatActivity {
             //添加三个灰色的点
             ImageView point = new ImageView(this);
             point.setImageResource(R.drawable.guide_point_normal);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(GuideActivity.this,10), DensityUtil.dip2px(GuideActivity.this,10));
             point.setLayoutParams(params);
             if (i != 0) {
-                params.leftMargin = 10;
+                params.leftMargin = DensityUtil.dip2px(GuideActivity.this,10);
             }
             //添加到线性布局
             llPointGroup.addView(point);
@@ -182,5 +185,12 @@ public class GuideActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_start_main)
     public void onViewClicked() {
+        //保存记录已经进入到主页面
+        CacheUtils.putBoolean(this,"start_main",true);
+        //跳转到主页面
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        //关闭当前页面
+        finish();
     }
 }

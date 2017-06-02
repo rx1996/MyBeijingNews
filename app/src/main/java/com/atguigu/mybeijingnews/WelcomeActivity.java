@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.atguigu.mybeijingnews.activity.GuideActivity;
 import com.atguigu.mybeijingnews.activity.MainActivity;
+import com.atguigu.mybeijingnews.utils.CacheUtils;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -57,9 +58,16 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
-                Intent intent = new Intent(WelcomeActivity.this,GuideActivity.class);
-                startActivity(intent);
+                boolean isStartMain =  CacheUtils.getBoolean(WelcomeActivity.this,"start_main");
+                if(isStartMain){
+                    //直接进入主页面
+                    Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    //进入引导页面
+                    Intent intent = new Intent(WelcomeActivity.this,GuideActivity.class);
+                    startActivity(intent);
+                }
                 //关闭欢迎页面
                 finish();
             }
