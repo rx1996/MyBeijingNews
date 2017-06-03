@@ -4,6 +4,6 @@
     android:id="@+id/fl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44000000"
+    android:background="#000000"
     tools:context="com.atguigu.mybeijingnews.activity.MainActivity">
 </FrameLayout>
