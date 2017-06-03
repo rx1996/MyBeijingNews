@@ -15,6 +15,7 @@ import com.atguigu.mybeijingnews.base.BasePager;
 import com.atguigu.mybeijingnews.pager.HomePager;
 import com.atguigu.mybeijingnews.pager.NewsPager;
 import com.atguigu.mybeijingnews.pager.SettingPager;
+import com.atguigu.mybeijingnews.view.NoViewPager;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ import butterknife.InjectView;
 
 public class ContentFragment extends BaseFragment {
     @InjectView(R.id.vp)
-    ViewPager vp;
+    NoViewPager vp;
     @InjectView(R.id.rg_main)
     RadioGroup rgMain;
     private TextView textView;
