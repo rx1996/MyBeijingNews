@@ -6,12 +6,16 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import com.atguigu.mybeijingnews.activity.MainActivity;
 import com.atguigu.mybeijingnews.base.BasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
+import com.atguigu.mybeijingnews.fragment.LeftMenuFragment;
 import com.atguigu.mybeijingnews.utils.ConstantUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -20,6 +24,8 @@ import okhttp3.Call;
  */
 
 public class NewsPager extends BasePager {
+    //数据集合
+    private List<NewsCenterBean.DataBean> datas;
     public NewsPager(Context context) {
         super(context);
     }
@@ -28,7 +34,7 @@ public class NewsPager extends BasePager {
     public void initData() {
         super.initData();
         //把数据绑定到视图上
-
+        Log.e("TAG", "NewsPager-数据初始化...");
         //设置标题
         tv_title.setText("新闻");
 
@@ -70,6 +76,12 @@ public class NewsPager extends BasePager {
     private void processData(String json) {
         NewsCenterBean newsCenterBean = new Gson().fromJson(json,NewsCenterBean.class);
         Log.e("TAG","解析成功了哦=="+ newsCenterBean.getData().get(0).getChildren().get(0).getTitle());
-
+        datas = newsCenterBean.getData();
+        //传到左侧菜单
+        MainActivity mainActivity = (MainActivity) context;
+        //得到左侧菜单Fragment
+        LeftMenuFragment leftMenuFragment = mainActivity.getLeftMenuFragment();
+        //设置数据
+        leftMenuFragment.setData(datas);
     }
 }
