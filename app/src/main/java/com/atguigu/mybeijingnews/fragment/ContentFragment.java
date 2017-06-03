@@ -97,6 +97,7 @@ public class ContentFragment extends BaseFragment {
 
             }
         });
+        pagers.get(0).initData();//不写这个一开始进去主页不显示内容
         //默认选中主页
         rgMain.check(R.id.rb_home);
         //默认不可侧滑
@@ -106,6 +107,10 @@ public class ContentFragment extends BaseFragment {
     private static void isEnableSlidingMenu(Context context, int touchmodeFullscreen) {
         MainActivity ma = (MainActivity) context;
         ma.getSlidingMenu().setTouchModeAbove(touchmodeFullscreen);
+    }
+
+    public NewsPager getNewsPager() {
+        return(NewsPager) pagers.get(1);
     }
 
     class MyAdapter extends PagerAdapter {

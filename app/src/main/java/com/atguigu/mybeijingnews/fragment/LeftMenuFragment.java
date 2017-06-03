@@ -14,6 +14,7 @@ import com.atguigu.mybeijingnews.R;
 import com.atguigu.mybeijingnews.activity.MainActivity;
 import com.atguigu.mybeijingnews.base.BaseFragment;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
+import com.atguigu.mybeijingnews.pager.NewsPager;
 
 import java.util.List;
 
@@ -39,9 +40,15 @@ public class LeftMenuFragment extends BaseFragment {
                 prePosition = position;
                 //刷新适配器
                 adapter.notifyDataSetChanged();//getCount-->getView
-
+                //得到MainActivity
                 MainActivity mainActivity = (MainActivity) context;
                 mainActivity.getSlidingMenu().toggle();//关<->开
+                //得到ContentFragment
+                ContentFragment contentFragment = mainActivity.getContentFragment();
+                //得到NewsPager
+                NewsPager newsPager = contentFragment.getNewsPager();
+                //调用切换方法
+                newsPager.swichPager(prePosition);
 
             }
         });
