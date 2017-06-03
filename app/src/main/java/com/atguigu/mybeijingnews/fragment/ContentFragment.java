@@ -70,6 +70,23 @@ public class ContentFragment extends BaseFragment {
                 }
             }
         });
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //调用initData方法
+                pagers.get(position).initData();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         //默认选中主页
         rgMain.check(R.id.rb_home);
     }
@@ -80,7 +97,7 @@ public class ContentFragment extends BaseFragment {
             BasePager basePager = pagers.get(position);//HomePager,NewsPager,SettingPager
             View rootView = basePager.rootView;
             //调用initData方法
-            basePager.initData();//HomePager,NewsPager,SettingPager
+//            basePager.initData();//HomePager,NewsPager,SettingPager
             container.addView(rootView);
             return rootView;
         }
