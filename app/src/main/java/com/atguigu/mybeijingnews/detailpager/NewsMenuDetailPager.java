@@ -1,13 +1,11 @@
 package com.atguigu.mybeijingnews.detailpager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import com.atguigu.mybeijingnews.R;
 import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
@@ -25,6 +23,7 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     //TabDetailPager的对应的数据
     private final List<NewsCenterBean.DataBean.ChildrenBean> datas;
     private ViewPager viewpager;
+    private ImageButton ib_next;
     //TabDetailPager页面集合
     private List<TabDetailPager> tabDetailPagers;
     private TabPageIndicator indicator;
@@ -39,6 +38,15 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
         View view = View.inflate(context, R.layout.pager_news_menu_detail,null);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
         indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
+        ib_next = (ImageButton) view.findViewById(R.id.ib_next);
+        //设置点击事件
+        ib_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切换到下一个页面
+                viewpager.setCurrentItem(viewpager.getCurrentItem()+1);
+            }
+        });
         //创建子类的视图
         return view;
     }
