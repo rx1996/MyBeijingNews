@@ -112,7 +112,7 @@ public class NewsPager extends BasePager {
         leftMenuFragment.setData(datas);
         //实例化详情页面
         basePagers = new ArrayList<>();
-        basePagers.add(new NewsMenuDetailPager(context));//新闻详情页面
+        basePagers.add(new NewsMenuDetailPager(context,datas.get(0).getChildren()));//新闻详情页面
         basePagers.add(new TopicMenuDetailPager(context));//专题详情页面
         basePagers.add(new PhotosMenuDetailPager(context));//组图详情页面
         basePagers.add(new InteractMenuDetailPager(context));//互动详情页面
