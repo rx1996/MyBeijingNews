@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.activity.MainActivity;
 import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
+import com.slidingmenu.lib.SlidingMenu;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -48,6 +50,32 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
             }
         });
         //创建子类的视图
+
+        //监听页面的改变
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0) {
+                    //SlidingMenu可以滑动
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                }else{
+                    //不可以滑动
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         return view;
     }
 
