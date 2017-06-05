@@ -17,6 +17,7 @@ import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
 import com.atguigu.mybeijingnews.domain.TabDetailPagerBean;
 import com.atguigu.mybeijingnews.utils.ConstantUtils;
+import com.atguigu.mybeijingnews.view.HorizontalScrollViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
@@ -35,9 +36,9 @@ import okhttp3.Call;
 
 public class TabDetailPager extends MenuDetailBasePager {
     private final NewsCenterBean.DataBean.ChildrenBean childrenBean;
-    ViewPager viewpager;
     TextView tvTitle;
     LinearLayout llPointGroup;
+    HorizontalScrollViewPager viewpager;
     @InjectView(R.id.lv)
     ListView lv;
 
@@ -60,7 +61,7 @@ public class TabDetailPager extends MenuDetailBasePager {
         ButterKnife.inject(this,view);
         //顶部的视图
         View viewTopNews = View.inflate(context,R.layout.tab_detail_topnews,null);
-        viewpager = (ViewPager) viewTopNews.findViewById(R.id.viewpager);
+        viewpager = (HorizontalScrollViewPager) viewTopNews.findViewById(R.id.viewpager);
         tvTitle = (TextView) viewTopNews.findViewById(R.id.tv_title);
         llPointGroup = (LinearLayout) viewTopNews.findViewById(R.id.ll_point_group);
         //把顶部的部分以添加头的方式加入ListView中
@@ -71,15 +72,6 @@ public class TabDetailPager extends MenuDetailBasePager {
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                String title = topnews.get(position).getTitle();
-                tvTitle.setText(title);
-
                 //把之前的设置默认
                 llPointGroup.getChildAt(prePosition).setEnabled(false);
 
@@ -88,6 +80,15 @@ public class TabDetailPager extends MenuDetailBasePager {
 
                 //记录当前值
                 prePosition = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                String title = topnews.get(position).getTitle();
+                tvTitle.setText(title);
+
+
 
 
             }
