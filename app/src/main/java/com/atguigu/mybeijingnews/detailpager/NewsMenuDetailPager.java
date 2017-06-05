@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.atguigu.mybeijingnews.R;
 import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
+import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     private ViewPager viewpager;
     //TabDetailPager页面集合
     private List<TabDetailPager> tabDetailPagers;
+    private TabPageIndicator indicator;
 
     public NewsMenuDetailPager(Context context, List<NewsCenterBean.DataBean.ChildrenBean> children) {
         super(context);
@@ -36,6 +38,7 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     public View initView() {
         View view = View.inflate(context, R.layout.pager_news_menu_detail,null);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
+        indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
         //创建子类的视图
         return view;
     }
@@ -53,6 +56,8 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
         //设置适配器
         viewpager.setAdapter(new NewsMenuDetailPagerAdapter());
+        //TabPageIndicator和ViewPager关联起来
+        indicator.setViewPager(viewpager);
     }
 
     class NewsMenuDetailPagerAdapter extends PagerAdapter {
@@ -60,6 +65,11 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
         @Override
         public int getCount() {
             return tabDetailPagers == null ? 0 : tabDetailPagers.size();
+        }
+        //得到标题
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return datas.get(position).getTitle();
         }
 
         @Override
