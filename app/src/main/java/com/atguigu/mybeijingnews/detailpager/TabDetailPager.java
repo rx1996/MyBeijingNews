@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,11 +35,8 @@ import okhttp3.Call;
 
 public class TabDetailPager extends MenuDetailBasePager {
     private final NewsCenterBean.DataBean.ChildrenBean childrenBean;
-    @InjectView(R.id.viewpager)
     ViewPager viewpager;
-    @InjectView(R.id.tv_title)
     TextView tvTitle;
-    @InjectView(R.id.ll_point_group)
     LinearLayout llPointGroup;
     @InjectView(R.id.lv)
     ListView lv;
@@ -48,6 +46,9 @@ public class TabDetailPager extends MenuDetailBasePager {
     private String url;
     //顶部新闻的数据集合
     private List<TabDetailPagerBean.DataBean.TopnewsBean> topnews;
+    //新闻列表数据集合
+    private List<TabDetailPagerBean.DataBean.NewsBean> newsBeanList;
+    private ListAdapter adapter;
     public TabDetailPager(Context context, NewsCenterBean.DataBean.ChildrenBean childrenBean) {
         super(context);
         this.childrenBean = childrenBean;
@@ -57,6 +58,14 @@ public class TabDetailPager extends MenuDetailBasePager {
     public View initView() {
         View view = View.inflate(context, R.layout.pager_tab_detail, null);
         ButterKnife.inject(this,view);
+        //顶部的视图
+        View viewTopNews = View.inflate(context,R.layout.tab_detail_topnews,null);
+        viewpager = (ViewPager) viewTopNews.findViewById(R.id.viewpager);
+        tvTitle = (TextView) viewTopNews.findViewById(R.id.tv_title);
+        llPointGroup = (LinearLayout) viewTopNews.findViewById(R.id.ll_point_group);
+        //把顶部的部分以添加头的方式加入ListView中
+        lv.addHeaderView(viewTopNews);
+
         //创建子类的视图
         //设置监听ViewPager页面的变化
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -152,6 +161,63 @@ public class TabDetailPager extends MenuDetailBasePager {
 
             //添加到线性布局
             llPointGroup.addView(point);
+        }
+        newsBeanList = bean.getData().getNews();
+        adapter = new ListAdapter();
+        lv.setAdapter(adapter);
+    }
+    class ListAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return newsBeanList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if(convertView == null) {
+                convertView = View.inflate(context,R.layout.item_tab_detail,null);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            }else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            TabDetailPagerBean.DataBean.NewsBean newsBean = newsBeanList.get(position);
+            viewHolder.tvDesc.setText(newsBean.getTitle());
+            viewHolder.tvTime.setText(newsBean.getPubdate());
+
+            String imageUrl = ConstantUtils.BASE_URL + newsBean.getListimage();
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.pic_item_list_default)
+                    .error(R.drawable.pic_item_list_default)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.ivIcon);
+
+            return convertView;
+        }
+    }
+    static class ViewHolder {
+        @InjectView(R.id.iv_icon)
+        ImageView ivIcon;
+        @InjectView(R.id.tv_desc)
+        TextView tvDesc;
+        @InjectView(R.id.tv_time)
+        TextView tvTime;
+
+        ViewHolder(View view) {
+            ButterKnife.inject(this, view);
         }
     }
 
