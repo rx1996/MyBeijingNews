@@ -2,6 +2,7 @@ package com.atguigu.mybeijingnews.pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +22,10 @@ import com.atguigu.mybeijingnews.utils.ConstantUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +90,8 @@ public class NewsPager extends BasePager {
                 });
     }
     private void processData(String json) {
-        NewsCenterBean newsCenterBean = new Gson().fromJson(json,NewsCenterBean.class);
+//        NewsCenterBean newsCenterBean = new Gson().fromJson(json,NewsCenterBean.class);
+        NewsCenterBean newsCenterBean = paraseJson(json);
         Log.e("TAG","解析成功了哦=="+ newsCenterBean.getData().get(0).getChildren().get(0).getTitle());
         datas = newsCenterBean.getData();
         //传到左侧菜单
@@ -104,6 +110,55 @@ public class NewsPager extends BasePager {
 
         swichPager(0);
     }
+
+    @NonNull
+    private NewsCenterBean paraseJson(String json) {
+        NewsCenterBean newsCenterBean = new NewsCenterBean();
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            int retcode = jsonObject.optInt("retcode");
+            newsCenterBean.setRetcode(retcode);
+
+            JSONArray jsonArray = jsonObject.optJSONArray("data");
+            List<NewsCenterBean.DataBean> datas = new ArrayList<>();
+            newsCenterBean.setData(datas);
+
+            for(int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                if(jsonObject1 != null) {
+                    NewsCenterBean.DataBean dataBean = new NewsCenterBean.DataBean();
+                    datas.add(dataBean);
+
+                    dataBean.setId(jsonObject1.optInt("id"));
+                    dataBean.setTitle(jsonObject1.optString("title"));
+                    dataBean.setType(jsonObject1.optInt("type"));
+                    dataBean.setUrl(jsonObject1.optString("url"));
+
+                    JSONArray children = jsonObject1.optJSONArray("children");
+                    if(children != null) {
+                        List<NewsCenterBean.DataBean.ChildrenBean> childrenBeans = new ArrayList<>();
+                        dataBean.setChildren(childrenBeans);
+
+                        for(int i1 = 0; i1 < children.length(); i1++) {
+                            NewsCenterBean.DataBean.ChildrenBean  childrenBean = new NewsCenterBean.DataBean.ChildrenBean();
+                            childrenBeans.add(childrenBean);
+                            JSONObject childenObje = (JSONObject) children.get(i1);
+                            childrenBean.setId(childenObje.optInt("id"));
+                            childrenBean.setTitle(childenObje.optString("title"));
+                            childrenBean.setType(childenObje.optInt("type"));
+                            childrenBean.setUrl(childenObje.optString("url"));
+
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return newsCenterBean;
+    }
+
     //根据位置切换到不同的详情页面
     public void swichPager(int prePosition) {
 
