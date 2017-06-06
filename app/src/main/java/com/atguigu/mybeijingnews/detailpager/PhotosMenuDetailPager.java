@@ -1,17 +1,25 @@
 package com.atguigu.mybeijingnews.detailpager;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.atguigu.beijingnews_library.utils.ConstantUtils;
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.adapter.PhotosMenuDetailPagerAdapater;
 import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
+import com.atguigu.mybeijingnews.domain.PhotosMenuDetailPagerBean;
+import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,6 +38,9 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     ProgressBar progressbar;
     private String url;
 
+    private PhotosMenuDetailPagerAdapater adapater;
+    //组图的数据
+    private List<PhotosMenuDetailPagerBean.DataBean.NewsBean> datas;
     public PhotosMenuDetailPager(Context context, NewsCenterBean.DataBean dataBean) {
         super(context);
         this.dataBean = dataBean;
@@ -76,6 +87,49 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     }
 
     private void processData(String json) {
+        PhotosMenuDetailPagerBean bean = new Gson().fromJson(json,PhotosMenuDetailPagerBean.class);
+        datas = bean.getData().getNews();
+
+        if(datas != null && datas.size() >0){
+            //有数据
+            progressbar.setVisibility(View.GONE);
+            adapater = new PhotosMenuDetailPagerAdapater(context,datas);
+            //设置适配器
+            recyclerview.setAdapter(adapater);
+
+            //布局管理器
+            recyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false));
+
+        }else{
+            //没有数据
+            progressbar.setVisibility(View.VISIBLE);
+        }
+    }
+    /**
+     * true:显示List效果
+     * false:显示Grid
+     */
+    private boolean isShowList = true;
+
+    /**
+     * 设置List和Grid风格的切换和按钮的设置
+     * @param iv
+     */
+    public void swichListAndGrid(ImageButton iv) {
+        if(isShowList){
+            //显示Grid效果
+            recyclerview.setLayoutManager(new GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false));
+            isShowList = false;
+            //按钮状态-List
+            iv.setImageResource(R.drawable.icon_pic_list_type);
+        }else{
+            //显示List
+            //布局管理器
+            recyclerview.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+            isShowList = true;
+            //按钮状态-Grid
+            iv.setImageResource(R.drawable.icon_pic_grid_type);
+        }
 
     }
 }
