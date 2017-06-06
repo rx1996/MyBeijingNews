@@ -1,7 +1,9 @@
 package com.atguigu.mybeijingnews.detailpager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.atguigu.beijingnews_library.utils.CacheUtils;
 import com.atguigu.beijingnews_library.utils.ConstantUtils;
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.activity.NewsDetailActivity;
 import com.atguigu.mybeijingnews.base.MenuDetailBasePager;
 import com.atguigu.mybeijingnews.domain.NewsCenterBean;
 import com.atguigu.mybeijingnews.domain.TabDetailPagerBean;
@@ -156,6 +159,12 @@ public class TabDetailPager extends MenuDetailBasePager {
                     CacheUtils.putString(context,READ_ID_ARRAY,idArray);
                     adapter.notifyDataSetChanged();
                 }
+                String url = ConstantUtils.BASE_URL + newsBean.getUrl();
+
+                //跳转到Activity显示新闻详情内容
+                Intent intent = new Intent(context,NewsDetailActivity.class);
+                intent.setData(Uri.parse(url));
+                context.startActivity(intent);
             }
         });
         return view;
@@ -241,7 +250,9 @@ public class TabDetailPager extends MenuDetailBasePager {
             newsBeanList.addAll(bean.getData().getNews());
             //适配器刷新
             adapter.notifyDataSetChanged();
+
         }
+
     }
     class ListAdapter extends BaseAdapter{
 
