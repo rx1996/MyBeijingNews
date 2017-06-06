@@ -34,4 +34,5 @@ dependencies {
     compile project(':Android-PullToRefresh_library')
     compile project(':SlidingMenu_library')
     compile project(':BeiJingNews_Library')
+    compile 'com.android.support:recyclerview-v7:24.2.1'
 }

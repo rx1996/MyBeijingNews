@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.atguigu.mybeijingnews.R;
@@ -15,6 +16,7 @@ import com.atguigu.mybeijingnews.activity.MainActivity;
 
 public class BasePager {
     public Context context;
+    public ImageButton ib_switch_list_grid;
 
     //代表一整个页面
     public View rootView;
@@ -32,6 +34,7 @@ public class BasePager {
         tv_title = (TextView) rootView.findViewById(R.id.tv_title);
         ib_menu = (ImageButton) rootView.findViewById(R.id.ib_menu);
         fl_content = (FrameLayout) rootView.findViewById(R.id.fl_content);
+        ib_switch_list_grid = (ImageButton) rootView.findViewById(R.id.ib_switch_list_grid);
         //设置点击事件
         ib_menu.setOnClickListener(new View.OnClickListener() {
             @Override
