@@ -1,4 +1,4 @@
-package com.atguigu.mybeijingnews.utils;
+package com.atguigu.beijingnews_library.utils;
 
 /**
  * Created by Administrator on 2017/6/3.

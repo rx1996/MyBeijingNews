@@ -2,13 +2,12 @@ package com.atguigu.mybeijingnews.activity;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.atguigu.beijingnews_library.utils.DensityUtil;
 import com.atguigu.mybeijingnews.R;
 import com.atguigu.mybeijingnews.fragment.ContentFragment;
 import com.atguigu.mybeijingnews.fragment.LeftMenuFragment;
-import com.atguigu.mybeijingnews.utils.DensityUtil;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 

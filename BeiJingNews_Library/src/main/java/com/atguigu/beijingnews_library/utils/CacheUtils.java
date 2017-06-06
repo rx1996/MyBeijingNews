@@ -1,4 +1,4 @@
-package com.atguigu.mybeijingnews.utils;
+package com.atguigu.beijingnews_library.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
