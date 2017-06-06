@@ -1,9 +1,12 @@
 package com.atguigu.mybeijingnews.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,6 +38,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     @InjectView(R.id.activity_news_detail)
     LinearLayout activityNewsDetail;
 
+    private Uri url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,28 @@ public class NewsDetailActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         ButterKnife.inject(this);
         setView();
+        //网页地址
+        url = getIntent().getData();
+
+        WebSettings settings = webview.getSettings();
+        //设置相关配置
+        //设置支持javaScript
+        settings.setJavaScriptEnabled(true);
+        //设置双击页面变大变小
+        settings.setUseWideViewPort(true);
+        //添加变大变小按钮
+        settings.setBuiltInZoomControls(true);
+        //设置加载网页完成的监听
+        webview.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressbar.setVisibility(View.GONE);
+            }
+        });
+        //加载网页地址
+
+        webview.loadUrl(url.toString());
     }
     private void setView() {
         tvTitle.setVisibility(View.GONE);
