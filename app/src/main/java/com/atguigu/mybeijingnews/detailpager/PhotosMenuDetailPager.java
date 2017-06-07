@@ -112,6 +112,11 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
             //布局管理器
             recyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            if (!isShowList) {
+                //显示Grid效果
+                recyclerview.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
+                isShowList = false;
+            }
 
         } else {
             //没有数据
