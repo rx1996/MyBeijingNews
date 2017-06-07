@@ -40,9 +40,10 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     @InjectView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
     private String url;
-
     private PhotosMenuDetailPagerAdapater adapater;
-    //组图的数据
+    /**
+     * 图组的数据
+     */
     private List<PhotosMenuDetailPagerBean.DataBean.NewsBean> datas;
 
     public PhotosMenuDetailPager(Context context, NewsCenterBean.DataBean dataBean) {
@@ -63,7 +64,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
                 getDataFromNet(url);
             }
         });
-        //设置滑动多少距离有效果(不写也行)
+        //设置滑动多少距离有效果
 //        refreshLayout.setDistanceToTriggerSync(100);
         return view;
     }
@@ -90,7 +91,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e("TAG", "图组请求成功==" + response);
+                        Log.e("TAG", "图组请求成功==");
                         processData(response);
 
                     }
@@ -106,7 +107,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         if (datas != null && datas.size() > 0) {
             //有数据
             progressbar.setVisibility(View.GONE);
-            adapater = new PhotosMenuDetailPagerAdapater(context, datas);
+            adapater = new PhotosMenuDetailPagerAdapater(context, datas,recyclerview);
             //设置适配器
             recyclerview.setAdapter(adapater);
 
@@ -122,8 +123,10 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             //没有数据
             progressbar.setVisibility(View.VISIBLE);
         }
+
         //隐藏刷新进度效果
         refreshLayout.setRefreshing(false);
+
     }
 
     /**
@@ -144,6 +147,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             isShowList = false;
             //按钮状态-List
             iv.setImageResource(R.drawable.icon_pic_list_type);
+//            adapater.notifyItemChanged(0,datas.size());
         } else {
             //显示List
             //布局管理器
@@ -151,6 +155,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             isShowList = true;
             //按钮状态-Grid
             iv.setImageResource(R.drawable.icon_pic_grid_type);
+//            adapater.notifyItemChanged(0,datas.size());
         }
 
     }
