@@ -3,16 +3,24 @@ package com.atguigu.beijingnews_library.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+
+import javax.security.auth.login.LoginException;
 
 /**
  * Created by Administrator on 2017/6/7.
  */
 
 public class LocalCachUtils {
+    private final MemoryCachUtils momenyCachUtils;
+    public LocalCachUtils(MemoryCachUtils memoryCachUtils) {
+        this.momenyCachUtils = memoryCachUtils;
+    }
+
     //保存图片
     public void putBitmap2Local(String imageUrl, Bitmap bitmap) {
         try {
@@ -31,6 +39,7 @@ public class LocalCachUtils {
             if (!file.exists()) {
                 file.createNewFile();
             }
+            Log.e("TAG", "file==" + file.getAbsolutePath());
 
             //保存图片
             FileOutputStream fos = new FileOutputStream(file);
@@ -55,7 +64,9 @@ public class LocalCachUtils {
             if (file.exists()) {
 
                 Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
-
+                if(bitmap != null) {
+                    momenyCachUtils.putBitmap2Memory(imageUrl,bitmap);
+                }
                 return bitmap;
 
             }
