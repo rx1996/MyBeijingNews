@@ -1,6 +1,8 @@
 package com.atguigu.mybeijingnews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.atguigu.beijingnews_library.utils.ConstantUtils;
 import com.atguigu.mybeijingnews.R;
+import com.atguigu.mybeijingnews.activity.PicassoSampleActivity;
 import com.atguigu.mybeijingnews.domain.PhotosMenuDetailPagerBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -76,6 +79,19 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this,itemView);
+            //设置RecyclerView的item的点击事件
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //跳转到显示图片的Activity页面，使用的PhotoView
+                    String imageUrl = ConstantUtils.BASE_URL + datas.get(getLayoutPosition()).getListimage();
+                    Intent intent = new Intent(context, PicassoSampleActivity.class);
+                    intent.setData(Uri.parse(imageUrl));
+                    context.startActivity(intent);
+
+                }
+            });
         }
     }
 }
