@@ -2,6 +2,7 @@ package com.atguigu.mybeijingnews.app;
 
 import android.app.Application;
 
+import com.atguigu.mybeijingnews.CrashHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -36,6 +37,9 @@ public class MyApplocation extends Application {
         ImageLoaderConfiguration config = ImageLoaderConfiguration
                 .createDefault(this);
         ImageLoader.getInstance().init(config);
+
+        CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());
 
     }
 }
