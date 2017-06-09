@@ -21,6 +21,11 @@ import com.atguigu.mybeijingnews.activity.PicassoSampleActivity;
 import com.atguigu.mybeijingnews.domain.PhotosMenuDetailPagerBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -40,6 +45,8 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
     private final Context context;
     private final RecyclerView recyclerview;
     private BitmapCacheUtils bitmapCacheUtils;
+
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     private Handler handler = new Handler(){
         @Override
@@ -97,13 +104,26 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .into(holder.ivIcon);
         //使用自定义方式请求图片
-        Bitmap bitmap = bitmapCacheUtils.getBitmap(imageUrl,position);
-        //图片对应的Tag就是位置
-        holder.ivIcon.setTag(position);
-        if(bitmap != null){//来自内存和本地，不包括网络
-            holder.ivIcon.setImageBitmap(bitmap);
-        }
+//        Bitmap bitmap = bitmapCacheUtils.getBitmap(imageUrl,position);
+//        //图片对应的Tag就是位置
+//        holder.ivIcon.setTag(position);
+//        if(bitmap != null){//来自内存和本地，不包括网络
+//            holder.ivIcon.setImageBitmap(bitmap);
+//        }
 
+
+        DisplayImageOptions options;
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.pic_item_list_default)
+                .showImageForEmptyUri(R.drawable.pic_item_list_default)
+                .showImageOnFail(R.drawable.pic_item_list_default)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(20))
+                .build();
+        ImageLoader.getInstance().displayImage(imageUrl, holder.ivIcon,options);
     }
 
     /**

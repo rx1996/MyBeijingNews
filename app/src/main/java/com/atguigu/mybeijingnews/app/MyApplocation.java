@@ -2,6 +2,8 @@ package com.atguigu.mybeijingnews.app;
 
 import android.app.Application;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -27,7 +29,13 @@ public class MyApplocation extends Application {
         OkHttpUtils.initClient(okHttpClient);
         //极光推送初始化
 
+
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+
+        ImageLoaderConfiguration config = ImageLoaderConfiguration
+                .createDefault(this);
+        ImageLoader.getInstance().init(config);
+
     }
 }
